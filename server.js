@@ -1,10 +1,18 @@
 
+
+
+const express = require('express');
+const app = express();
+const cors = require('cors')
+const http = require('http');
+const server = http.createServer(app);
+
+app.use(cors())
 const port = 10000;
 
-const server = require('http').createServer();
-const io = require('socket.io')(server);
+const socketio = require('socket.io')(server, {cors: {origin: "*"}});
 
-io.on('connection', (socket) => {
+socketio.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
   socket.emit('greet', "Hello from server!")
@@ -29,13 +37,5 @@ io.on('connection', (socket) => {
 
     
 server.listen(port, () => {
-    console.log(`> Ready on https://tasky-rr1w.onrender.com:${port}`);
+    console.log(`> Ready on localhost:${port}`);
 });
-
-
-
-
-  
-
-  
-
