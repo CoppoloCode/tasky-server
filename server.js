@@ -27,6 +27,10 @@ socketio.on('connection', (socket) => {
     socket.to(board.id).emit('sendBoard', board)
   })
 
+  socket.on('sendMessage', (message)=>{
+    socket.to(message.id).emit('sendMessage', message)
+  })
+
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
     
