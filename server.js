@@ -6,7 +6,7 @@ const app = express();
 const cors = require('cors')
 const http = require('http');
 const server = http.createServer(app);
-
+const users = new Set();
 app.use(cors())
 const port = 10000;
 
@@ -15,6 +15,12 @@ const socketio = require('socket.io')(server, {cors: {origin: "*"}});
 socketio.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
+  if(users.has(socket.id)){
+    socket?.disconnect()
+   }else{
+    users.add(socket.id);
+   }
+  
   socket.emit('greet', "Hello from server!")
 
   
@@ -33,7 +39,7 @@ socketio.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
-    
+    users.delete(socket.id)
     
   });
   
