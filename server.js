@@ -39,6 +39,7 @@ socketio.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
+    socket.removeAllListeners();
     users.delete(socket.id)
     
   });
